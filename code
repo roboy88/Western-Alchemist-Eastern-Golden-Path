@@ -1,0 +1,115 @@
+%%javascript
+// React App in Google Colab using CDN (no build tools required)
+
+// Load React and ReactDOM from CDN
+const scriptReact = document.createElement('script');
+scriptReact.src = "https://unpkg.com/react@18/umd/react.development.js";
+document.head.appendChild(scriptReact);
+
+const scriptReactDOM = document.createElement('script');
+scriptReactDOM.src = "https://unpkg.com/react-dom@18/umd/react-dom.development.js";
+document.head.appendChild(scriptReactDOM);
+
+const scriptBabel = document.createElement('script');
+scriptBabel.src = "https://unpkg.com/@babel/standalone/babel.min.js";
+document.head.appendChild(scriptBabel);
+
+// Wait until React and Babel are loaded
+scriptBabel.onload = () => {
+  const container = document.createElement('div');
+  container.id = 'root';
+  document.body.appendChild(container);
+
+  const jsxCode = `
+    const IGO_RAW_URL = "https://igoforms2.ipipeline.com/CossEnterpriseSuite/(S(32wy0dqcwpvfdqngq03dqvmk))/webforms/newcaseresp.aspx";
+    const BUSINESS_PHONE = "+1-908-555-0134";
+    const BUSINESS_SMS = "+1-908-555-0134";
+    const BUSINESS_EMAIL = "roman@romanwayfinancial.com";
+
+    const Card = ({ children, className = "" }) => (
+      <div style={{border: '1px solid #ccc', borderRadius: '12px', padding: '16px', margin: '8px', background: 'white'}}>
+        {children}
+      </div>
+    );
+
+    const Section = ({ id, title, children, subtitle }) => (
+      <section id={id} style={{padding: '24px'}}>
+        <h2>{title}</h2>
+        {subtitle && <p style={{color: '#555'}}>{subtitle}</p>}
+        {children}
+      </section>
+    );
+
+    const ProductCard = ({ title, bullets, ctaText, onClick, tag }) => (
+      <Card>
+        <h3>{title} {tag && <span style={{fontSize: '12px', border: '1px solid #ccc', padding: '2px 6px', borderRadius: '8px'}}>{tag}</span>}</h3>
+        <ul>
+          {bullets.map((b, i) => <li key={i}>{b}</li>)}
+        </ul>
+        <button onClick={onClick} style={{marginTop: '8px', padding: '8px 12px', borderRadius: '8px', background: '#2563eb', color: 'white', border: 'none'}}>
+          {ctaText}
+        </button>
+      </Card>
+    );
+
+    function App() {
+      const openIgo = () => {
+        const w = window.open(IGO_RAW_URL, "_blank", "noopener,noreferrer");
+        if (!w) alert("Popup blocked. Enable popups and try again.");
+      };
+
+      return (
+        <div style={{fontFamily: 'sans-serif'}}>
+          <header style={{background: '#fff', padding: '12px', borderBottom: '1px solid #eee', position: 'sticky', top: 0}}>
+            <strong>Roman Way Financial</strong>
+            <nav style={{float: 'right'}}>
+              <a href="#products" style={{margin: '0 8px'}}>Products</a>
+              <a href="#contact" style={{margin: '0 8px'}}>Contact</a>
+            </nav>
+          </header>
+
+          <Section title="Click. Qualify. Apply." subtitle="Protect your future the Roman Way.">
+            <p>Choose Term Life, Cash Value Life (IUL/Whole), or Annuities. Click a card below to start your secure application.</p>
+          </Section>
+
+          <Section id="products" title="Pick what fits" subtitle="Choose a product and begin the process.">
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              <ProductCard title="Term Life Insurance" tag="Most Affordable" bullets={["Pure protection for 10-30 years", "Great for income replacement", "Convertible options"]} ctaText="I want Term" onClick={openIgo} />
+              <ProductCard title="Cash Value Life (IUL/Whole)" tag="Build Cash Value" bullets={["Permanent coverage", "Flexible funding", "Tax-advantaged access"]} ctaText="I want Cash Value" onClick={openIgo} />
+              <ProductCard title="Fixed/Indexed Annuities" tag="Income Focus" bullets={["Tax-deferred growth", "Optional lifetime income", "Principal protection"]} ctaText="I want an Annuity" onClick={openIgo} />
+            </div>
+          </Section>
+
+          <Section id="contact" title="Questions? Talk to a human" subtitle="We are happy to help by phone, text, or email.">
+            <div style={{display: 'flex', flexWrap: 'wrap'}}>
+              <Card>
+                <h3>Call</h3>
+                <a href={\`tel:${BUSINESS_PHONE}\`}>{BUSINESS_PHONE}</a>
+              </Card>
+              <Card>
+                <h3>Text</h3>
+                <a href={\`sms:${BUSINESS_SMS}\`}>{BUSINESS_SMS}</a>
+              </Card>
+              <Card>
+                <h3>Email</h3>
+                <a href={\`mailto:${BUSINESS_EMAIL}\`}>{BUSINESS_EMAIL}</a>
+              </Card>
+            </div>
+          </Section>
+
+          <footer style={{borderTop: '1px solid #eee', padding: '12px', fontSize: '14px', color: '#555'}}>
+            © {new Date().getFullYear()} Roman Way Financial. All rights reserved.
+          </footer>
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  `;
+
+  const script = document.createElement('script');
+  script.type = 'text/babel';
+  script.text = jsxCode;
+  document.body.appendChild(script);
+};
